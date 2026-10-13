@@ -6,6 +6,8 @@ export interface Principle {
 }
 
 export interface LessonMaterial {
+  /** Uses the richer overview, concepts, practice, and takeaway presentation. */
+  layout?: 'enhanced'
   intro: string
   principles: Principle[]
   businessExample: {
@@ -17,6 +19,8 @@ export interface LessonMaterial {
 }
 
 export interface LessonProject {
+  /** Optional project destination. Leave empty until the administrator adds a URL. */
+  url?: string
   brief: string
   tasks: string[]
   expectedOutput: string
@@ -48,6 +52,6 @@ export interface Module {
 
 export interface Trainee {
   code: string
-  name: string
-  cohort: string
+  firstName: string
+  cohort?: string
 }

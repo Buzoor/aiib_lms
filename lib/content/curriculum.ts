@@ -1,4 +1,4 @@
-import type { Module } from './types'
+import type { LessonMaterial, Module } from './types'
 
 /**
  * AIIB CURRICULUM
@@ -11,35 +11,75 @@ import type { Module } from './types'
  * videoUrl: paste the private/unlisted YouTube link for the lesson
  * (e.g. "https://youtu.be/XXXXXXXXXXX"). Leave as "" until ready.
  */
+function createLesson(
+  id: string,
+  number: string,
+  title: string,
+  description: string,
+  focus: 'strategy' | 'human' | 'ai',
+  intro: string,
+  brief: string,
+  tasks: string[],
+  expectedOutput: string,
+  useCases: string[],
+  summary?: Pick<LessonMaterial, 'intro' | 'principles' | 'businessExample' | 'takeaway'>,
+) {
+  return {
+    id: `lesson-${id}`,
+    number,
+    title,
+    description,
+    videoUrl: '',
+    focus,
+    material: {
+      ...(summary ? { layout: 'enhanced' as const } : {}),
+      intro: summary?.intro ?? intro,
+      principles: summary?.principles ?? [
+        { title: 'Start with the customer', body: 'Use real audience needs and business context to guide the work.' },
+        { title: 'Give AI useful direction', body: 'Share clear goals, relevant information, and the format you need.' },
+        { title: 'Review with human judgment', body: 'Check accuracy, usefulness, and fit before using or publishing an output.' },
+      ],
+      businessExample: summary?.businessExample ?? {
+        title: 'A practical business task',
+        scenario: `Apply the lesson to a real ${title.toLowerCase()} task. Use your business context to shape a draft, then review and personalise the result before putting it to work.`,
+      },
+      useCases,
+      takeaway: summary?.takeaway ?? brief,
+    },
+    project: { url: '', brief, tasks, expectedOutput },
+  }
+}
+
+
 export const curriculum: Module[] = [
   {
     id: 'module-01',
     number: '01',
     title: 'Understanding AI for Business',
-    summary: 'Cut through the noise. Learn what AI is, where it fits in your business, and how to talk to it.',
+    summary: 'Understand what AI is, where it fits into business, and how to choose tools based on real business needs rather than hype.',
     lessons: [
       {
         id: 'lesson-01',
         number: '01',
         title: 'What AI Really Is',
-        description: 'A plain-English foundation: what AI can do for your business, what it cannot, and why strategy comes first.',
+        description: 'Learn what artificial intelligence is, how it differs from traditional software, what generative AI can do, and why human judgment remains important.',
         videoUrl: '',
         focus: 'strategy',
         material: {
+          layout: 'enhanced',
           intro:
-            'AI is a set of tools that recognise patterns and generate outputs — text, images, video, decisions — from the data and instructions you give it. It is leverage, not a replacement for your thinking.',
+            'Artificial intelligence describes computer systems that generate responses or find patterns from examples and instructions. In a small business, it can help draft content, analyse feedback, brainstorm ideas and support repetitive work. Understanding its strengths and limits helps you choose useful tasks while keeping people responsible for the result.',
           principles: [
-            { title: 'AI amplifies direction', body: 'AI multiplies whatever you point it at. Clear strategy produces useful output; unclear goals produce noise, faster.' },
-            { title: 'Inputs shape outputs', body: 'The quality of what you get is tied directly to the context, examples and instructions you provide.' },
-            { title: 'Humans stay accountable', body: 'AI drafts, suggests and accelerates. You review, decide and own the result your customers see.' },
+            { title: 'It works from patterns', body: 'AI responds to patterns and context rather than understanding your business.' },
+            { title: 'It supports everyday tasks', body: 'Use it to draft a caption, sort customer comments, explore ideas or organise notes into a first draft.' },
+            { title: 'People stay accountable', body: 'Check facts, tone and sensitive decisions. Human judgment keeps the work accurate, relevant and responsible.' },
           ],
           businessExample: {
             title: 'A local bakery',
-            scenario:
-              'The owner uses AI to draft weekly menu descriptions and social captions, then edits them in her own voice. Writing time drops from three hours to forty minutes — the brand still sounds like her.',
+            scenario: 'The owner asks AI for menu descriptions and social captions based on weekly specials. She checks ingredients and prices, then edits the copy so it sounds like her bakery before publishing.',
           },
           useCases: ['Drafting emails and captions', 'Summarising customer feedback', 'Brainstorming product ideas', 'Turning notes into structured plans'],
-          takeaway: 'AI is leverage. Strategy decides where to point it; your human touch decides what ships.',
+          takeaway: 'AI can speed up work; people provide direction, judgment and accountability.'
         },
         project: {
           brief: 'Map where AI could save you time this week.',
@@ -56,24 +96,24 @@ export const curriculum: Module[] = [
         id: 'lesson-02',
         number: '02',
         title: 'The AI Business Landscape',
-        description: 'Understand the categories of AI tools and where each one creates value across a business.',
+        description: 'Explore how AI can support marketing, sales, customer service, creative work, and business operations.',
         videoUrl: '',
         focus: 'strategy',
         material: {
+          layout: 'enhanced',
           intro:
-            'There are thousands of AI tools, but they fall into a handful of categories: language, image, video, audio, automation and analysis. Knowing the categories matters more than knowing every tool.',
+            'AI is changing everyday work in marketing, customer communication, research, content creation and operations. The useful question is not whether a business has adopted the latest tool, but whether a real task can be done better. Notice repeated work, delays and customer needs before choosing a solution.',
           principles: [
-            { title: 'Think in categories', body: 'Choose the category that solves your problem first, then pick a tool within it.' },
-            { title: 'Start where the pain is', body: 'The best first AI project is the task you dislike most and repeat most often.' },
-            { title: 'Fewer tools, deeper use', body: 'Mastering three tools beats dabbling in thirty.' },
+            { title: 'Look for repetition', body: 'Frequent tasks such as answering common questions may be good candidates for AI support.' },
+            { title: 'Find the bottleneck', body: 'Notice where work gets delayed, information is hard to organise or customers wait for a reply.' },
+            { title: 'Choose for a reason', body: 'Define the problem and desired result first, then compare tools that fit your workflow and budget.' },
           ],
           businessExample: {
-            title: 'A fitness coach',
-            scenario:
-              'Instead of signing up for every new app, the coach picks one language tool for programmes, one design tool for content and one automation tool for client check-ins — and goes deep on each.',
+            title: 'A growing fitness studio',
+            scenario: 'Staff spend hours replying to the same class and schedule questions. The owner maps those questions and improves the information customers can find before deciding whether AI-assisted replies would help.',
           },
           useCases: ['Language: copy, scripts, research', 'Image: graphics, product shots', 'Video: reels, explainers', 'Automation: follow-ups, scheduling'],
-          takeaway: 'Know the map before you pick the vehicle.',
+          takeaway: 'Find a genuine business need before choosing an AI tool.'
         },
         project: {
           brief: 'Audit your current tool stack.',
@@ -89,24 +129,24 @@ export const curriculum: Module[] = [
         id: 'lesson-03',
         number: '03',
         title: 'Core AI Tools for Entrepreneurs',
-        description: 'Get hands-on with the essential AI tools every entrepreneur should have in their toolkit.',
+        description: 'Understand the main categories of AI tools and how to select tools that fit your business tasks and workflow.',
         videoUrl: '',
         focus: 'ai',
         material: {
+          layout: 'enhanced',
           intro:
-            'A lean AI toolkit covers four jobs: thinking (a chat assistant), creating (design and video), publishing (scheduling) and connecting (automation). This lesson walks through setting each one up.',
+            'Entrepreneurs can choose from writing and research assistants, image and design generators, video tools and productivity solutions. Each category supports different work, so the right choice depends on the task, budget and result you need. A small, purposeful toolkit is easier to manage.',
           principles: [
-            { title: 'One assistant as your hub', body: 'Use a single AI chat assistant as your thinking partner so it learns your context over time.' },
-            { title: 'Templates over blank pages', body: 'Save the prompts and layouts that work so every new task starts at 80%.' },
-            { title: 'Test before you commit', body: 'Use free tiers to test a tool on a real task before paying for it.' },
+            { title: 'Match tool to task', body: 'Writing assistants support drafts and research; image, video and productivity tools serve different needs.' },
+            { title: 'Check the practical fit', body: 'Consider cost, privacy, learning time and workflow fit.' },
+            { title: 'Try before subscribing', body: 'Test a tool on real business work and review its output before committing to a paid plan.' },
           ],
           businessExample: {
             title: 'A boutique consultant',
-            scenario:
-              'She sets up an AI assistant with her service descriptions, tone of voice and FAQs. Proposals that took a day now take an hour of review.',
+            scenario: 'She needs to turn interview notes into proposal drafts and create simple social graphics. She tests a writing assistant and a design tool against those tasks, then keeps only the options that fit her budget and quality needs.',
           },
           useCases: ['Proposal drafting', 'Branded social graphics', 'Meeting summaries', 'Content calendars'],
-          takeaway: 'A small, well-configured toolkit beats a large, unused one.',
+          takeaway: 'Choose tools for the job, then judge them by useful results.'
         },
         project: {
           brief: 'Set up your core AI toolkit.',
@@ -127,9 +167,9 @@ export const curriculum: Module[] = [
         focus: 'human',
         material: {
           intro:
-            'A prompt is a brief. The clearer the brief, the better the work. Strong prompts give AI a role, context, a task, a format and constraints.',
+            'Learn how to give AI a clear role, useful context, a specific task, a format and practical constraints. A well-structured prompt helps you get more relevant results and refine them for your business.',
           principles: [
-            { title: 'Role + Context', body: 'Tell AI who it is and who it is helping: "You are a copywriter for a premium skincare brand…"' },
+            { title: 'Role + Context', body: 'Tell AI who it is and who it is helping: "You are a copywriter for a premium skincare brand..."' },
             { title: 'Task + Format', body: 'Be specific about the deliverable: "Write 3 Instagram captions under 120 words, with a CTA."' },
             { title: 'Iterate, don\u2019t restart', body: 'Refine the output with follow-up instructions instead of starting over.' },
           ],
@@ -157,7 +197,7 @@ export const curriculum: Module[] = [
     id: 'module-02',
     number: '02',
     title: 'AI Content Creation',
-    summary: 'Create images, video and short-form content that looks premium and sounds like you.',
+    summary: 'Learn how to use AI to support the creation, planning, and production of content for business communication and marketing.',
     lessons: [
       {
         id: 'lesson-01',
@@ -223,19 +263,20 @@ export const curriculum: Module[] = [
         videoUrl: '',
         focus: 'strategy',
         material: {
+          layout: 'enhanced',
           intro:
-            'Short-form video rewards consistency and clarity. A simple content system — pillars, hooks and a calendar — beats random posting every time.',
+            'Short-form content can earn attention, explain value and guide people towards a business goal. A useful plan starts with audience needs, then connects content pillars, hooks, formats and calls to action. Posting on a schedule is not enough if each piece has no clear purpose or next step.',
           principles: [
-            { title: 'Three content pillars', body: 'Educate, prove and connect. Every post should serve one of them.' },
-            { title: 'Hook in 2 seconds', body: 'The opening line decides whether anyone watches the rest.' },
-            { title: 'Batch with AI', body: 'Use AI to generate a month of hooks and outlines in one session.' },
+            { title: 'Start with audience needs', body: 'Use real customer questions and problems to choose useful topics and content pillars.' },
+            { title: 'Shape the message', body: 'Choose a strong hook and a format that communicates one clear idea.' },
+            { title: 'Give each post a purpose', body: 'Connect the message to a goal and a relevant next action, such as saving, enquiring or booking.' },
           ],
           businessExample: {
-            title: 'A hair salon',
-            scenario: 'The salon plans 12 reels a month across before/after, tips and team stories, using AI to draft hooks. Bookings from social increase steadily.',
+            title: 'A neighbourhood salon',
+            scenario: 'The owner plans tips, client transformations and behind-the-scenes videos around customer questions. Each post has one goal: build trust, explain a service or invite viewers to book a consultation.',
           },
           useCases: ['Monthly content calendars', 'Hook banks', 'Series ideas', 'Repurposing long content'],
-          takeaway: 'Strategy decides what to post. AI helps you post it consistently.',
+          takeaway: 'Plan content around audience needs and the action each post should support.'
         },
         project: {
           brief: 'Build a 30-day short-form plan.',
@@ -276,241 +317,25 @@ export const curriculum: Module[] = [
   {
     id: 'module-03',
     number: '03',
-    title: 'AI Marketing & Sales',
-    summary: 'Sharpen your message, turn conversations into sales and build funnels that work while you sleep.',
+    title: 'Brand Messaging & Copywriting',
+    summary: 'Write clearer business messages, develop brand messaging with AI, and turn customer conversations into sales opportunities.',
     lessons: [
-      {
-        id: 'lesson-01',
-        number: '01',
-        title: 'AI-Powered Brand Messaging',
-        description: 'Define a clear, compelling brand message and use AI to apply it everywhere.',
-        videoUrl: '',
-        focus: 'strategy',
-        material: {
-          intro:
-            'Your brand message is what you want people to remember. AI can help you test, refine and apply it — but the core truth has to come from you.',
-          principles: [
-            { title: 'Clarity over cleverness', body: 'Who you help, what you solve and why you are different — in one sentence.' },
-            { title: 'Capture your voice', body: 'Give AI examples of how you actually speak so its drafts sound like you.' },
-            { title: 'Apply consistently', body: 'Bio, website, captions and DMs should all say the same core thing.' },
-          ],
-          businessExample: {
-            title: 'A personal trainer',
-            scenario: 'Refining "I help people get fit" into "I help busy mums regain strength in 20-minute home sessions" doubled enquiry quality.',
-          },
-          useCases: ['Brand one-liners', 'Website copy', 'Social bios', 'Tone-of-voice guides'],
-          takeaway: 'A clear message makes every AI output better.',
-        },
-        project: {
-          brief: 'Write your brand message.',
-          tasks: ['Draft your one-sentence brand message.', 'Use AI to generate 5 variations and pick the strongest.', 'Update your social bio and one web page with it.'],
-          expectedOutput: 'A final brand message applied to at least two channels.',
-        },
-      },
-      {
-        id: 'lesson-02',
-        number: '02',
-        title: 'DM-First Sales Strategy',
-        description: 'Turn social conversations into customers with a human-first, AI-assisted DM process.',
-        videoUrl: '',
-        focus: 'human',
-        material: {
-          intro:
-            'Most sales start in the DMs. A DM-first strategy uses content to start conversations and a simple, human process to turn them into customers.',
-          principles: [
-            { title: 'Conversation before conversion', body: 'Ask questions and listen before you pitch.' },
-            { title: 'AI drafts, you send', body: 'Use AI to draft replies and follow-ups; personalise every message before sending.' },
-            { title: 'Track every lead', body: 'A simple tracker ensures no conversation goes cold.' },
-          ],
-          businessExample: {
-            title: 'A fashion reseller',
-            scenario: 'Posting "comment DROP for early access" and following up with personal DMs turned one post into twenty-plus sales.',
-          },
-          useCases: ['Comment-to-DM campaigns', 'Follow-up templates', 'Objection handling', 'Lead tracking'],
-          takeaway: 'People buy from people. AI just helps you reply faster.',
-        },
-        project: {
-          brief: 'Design your DM sales script.',
-          tasks: ['Write an opening message, 3 qualifying questions and a close.', 'Use AI to draft replies to 3 common objections.', 'Test it with at least 5 real conversations.'],
-          expectedOutput: 'A tested DM script and notes from 5 conversations.',
-        },
-      },
-      {
-        id: 'lesson-03',
-        number: '03',
-        title: 'Automated Sales Funnels',
-        description: 'Build a simple funnel that captures leads and nurtures them automatically.',
-        videoUrl: '',
-        focus: 'ai',
-        material: {
-          intro:
-            'A funnel is the path from stranger to customer: attract, capture, nurture, convert. AI and automation can run most of it once the strategy is set.',
-          principles: [
-            { title: 'One offer, one funnel', body: 'Each funnel should lead to one clear action.' },
-            { title: 'Give value first', body: 'A useful free resource earns the right to follow up.' },
-            { title: 'Automate the nurture', body: 'A short AI-drafted email sequence keeps leads warm without manual work.' },
-          ],
-          businessExample: {
-            title: 'An online course creator',
-            scenario: 'A free checklist, a landing page and a 5-email AI-written sequence produce consistent sales without daily effort.',
-          },
-          useCases: ['Lead magnets', 'Landing pages', 'Email sequences', 'Booking automations'],
-          takeaway: 'Design the path once. Let automation walk people down it.',
-        },
-        project: {
-          brief: 'Map and draft your first funnel.',
-          tasks: ['Choose one offer and one free lead magnet.', 'Sketch the 4 funnel stages for that offer.', 'Use AI to draft a 3-email nurture sequence.'],
-          expectedOutput: 'A funnel map and a drafted 3-email sequence.',
-        },
-      },
-      {
-        id: 'lesson-04',
-        number: '04',
-        title: 'AI Ad Creation & Paid Promotion',
-        description: 'Create and test paid ads faster, with AI-generated creative and copy variations.',
-        videoUrl: '',
-        focus: 'ai',
-        material: {
-          intro:
-            'Paid ads reward testing. AI lets you produce many creative and copy variations quickly so you find winners sooner and spend less doing it.',
-          principles: [
-            { title: 'Start small, test fast', body: 'Run small budgets across several variations before scaling.' },
-            { title: 'Change one thing at a time', body: 'Test hook, image or offer separately to learn what works.' },
-            { title: 'Let data decide', body: 'Scale what performs; retire what doesn\u2019t.' },
-          ],
-          businessExample: {
-            title: 'An e-commerce skincare brand',
-            scenario: 'Testing 6 AI-generated ad variations on a small budget revealed one hook that cut the cost per sale significantly.',
-          },
-          useCases: ['Ad copy variations', 'Creative concepts', 'Audience research', 'Performance summaries'],
-          takeaway: 'AI speeds up creative. Strategy and data decide where the money goes.',
-        },
-        project: {
-          brief: 'Create an ad test plan.',
-          tasks: ['Pick one offer to promote.', 'Use AI to create 3 headlines and 2 visuals.', 'Write a simple test plan with budget and success metric.'],
-          expectedOutput: 'Six ad variations and a one-page test plan.',
-        },
-      },
+      createLesson('copywriting', '01', 'Copywriting Fundamentals', 'Understand persuasive business writing, audience understanding, features and benefits, hooks, and calls to action.', 'strategy', 'Learn the fundamentals of writing persuasive business copy that communicates value clearly. Explore audience understanding, features versus benefits, hooks, problem-solution messaging and calls to action so your captions, promotions and sales messages encourage the right response.', 'Write a clear offer message', ['Describe your audience and the problem they want solved.', 'Turn one product feature into a customer benefit.', 'Write a hook and a direct call to action.'], 'A short, audience-focused offer message.', ['Audience and customer needs', 'Features and benefits', 'Hooks and calls to action'], { intro: 'Copywriting is business writing designed to help a reader understand an offer and take a useful next step. Unlike content written mainly to inform or entertain, copy connects a customer need to a clear benefit. Audience understanding, strong hooks and a direct call to action can improve captions, promotions, product descriptions and sales messages.', principles: [{ title: 'Know the reader', body: 'Use what your audience values, worries about and needs to choose relevant language.' }, { title: 'Lead with benefits', body: 'Explain how a feature helps the customer instead of listing specifications alone.' }, { title: 'Guide the next step', body: 'Use a hook to earn attention, then connect problem, solution and action clearly.' }], businessExample: { title: 'A meal-prep business', scenario: 'Instead of listing meal sizes and ingredients, the owner explains how weekly prepared lunches help busy professionals save time. A clear message describes the offer and invites readers to view the menu.' }, takeaway: 'Good copy makes the value clear and the next step easy to understand.' }),
+      createLesson('brand-messaging', '02', 'AI-Powered Brand Messaging', 'Use AI to develop clear, consistent, audience-focused brand messages while preserving your voice and personality.', 'human', 'Learn how to use AI to develop clear, consistent messaging that reflects your brand and speaks to the right audience. You will explore brand briefs, audience language, core messages and brand voice, while learning how to review AI-generated copy to keep it accurate and human.', 'Create a brand messaging guide', ['Describe who you help, what you offer, and the customer need you address.', 'Give AI examples of your brand voice and ask for message options.', 'Review and personalise the strongest message for consistency.'], 'A concise brand messaging guide with a voice note.', ['Brand positioning', 'Voice and tone examples', 'Consistent messaging across channels'], { intro: 'Brand messaging explains what a business does, whom it serves, which problem it solves and why customers should care. A useful brand brief gives AI the context to draft clearer messages. Audience language, core messages and brand voice guide its suggestions, while human review keeps the final copy accurate and recognisable.', principles: [{ title: 'Prepare a brand brief', body: 'Share the offer, audience, customer need, proof points and limits before asking AI to write.' }, { title: 'Listen to audience language', body: 'Use words customers actually use to describe their needs and desired results.' }, { title: 'Protect the brand voice', body: 'Give examples, compare drafts and edit until the message sounds authentic and consistent.' }], businessExample: { title: 'A neighbourhood skincare brand', scenario: 'The founder briefs AI on the products, ingredients, audience questions and friendly brand voice. She reviews several homepage messages, removes unsupported claims and chooses wording customers can understand.' }, takeaway: 'AI can shape message options; the business owner keeps them true to the brand.' }),
+      createLesson('dm-sales', '03', 'DM-First Sales Strategy', 'Turn everyday customer enquiries into helpful conversations that can lead to sales.', 'human', 'Discover how to turn everyday customer conversations into sales opportunities using a simple six-stage process: Attract, Respond, Discover, Recommend, Close and Follow Up. Learn how to respond to enquiries, understand customer needs, handle objections and guide interested customers towards an appropriate purchase without sounding pushy.', 'Map a helpful customer conversation', ['Draft an opening response to \u201cHow much?\u201d that invites context without hiding the price.', 'Write one discovery question, a relevant recommendation, and a clear close.', 'Prepare a thoughtful follow-up and a response to a common objection.'], 'A six-stage DM conversation map for a real offer.', ['The six-stage DM sales funnel', 'Customer discovery and recommendations', 'Objections, closing, follow-ups, and common situations'], { intro: 'Direct messages can help a potential customer move from interest towards a suitable purchase through a useful conversation. The process has six stages: Attract, Respond, Discover, Recommend, Close and Follow Up. A price question can open a conversation about needs, rather than ending the exchange with a number alone.', principles: [{ title: 'Use the six stages', body: 'Attract, Respond, Discover, Recommend, Close and Follow Up provide a simple conversation path.' }, { title: 'Understand before recommending', body: 'Ask a relevant question so the offer responds to what the customer actually needs.' }, { title: 'Make action clear without pressure', body: 'Address concerns honestly, suggest a fitting next step and follow up respectfully.' }], businessExample: { title: 'A customer asks about a service price', scenario: 'The business shares the price clearly, then asks what outcome the customer is looking for. It recommends the relevant option, answers a concern and offers a simple booking step without pushing.' }, takeaway: 'Helpful sales conversations put customer understanding before pressure.' }),
+      createLesson('sales-messaging-system', '04', 'Building Your AI Sales Messaging System', 'Use AI to develop reusable DM sales scripts, respond thoughtfully to objections, and create a simple 30-day DM-first content strategy.', 'ai', 'Learn how to use AI to build a reusable sales messaging playbook for your business. This lesson covers creating responses for common customer questions, price enquiries, objections and follow-ups, as well as turning customer conversations into useful content and a practical 30-day sales communication plan.', 'Build and personalise a DM sales playbook', ['Collect common customer questions, objections, and real situations.', 'Ask AI for reusable response drafts and a simple 30-day DM-first content plan.', 'Review each draft for accuracy, tone, and personalisation before adding it to your playbook.'], 'A customised sales playbook and a 30-day DM-first content outline.', ['Reusable DM scripts', 'Thoughtful objection responses', 'A review and personalisation workflow'], { intro: 'A sales messaging playbook helps a business answer common enquiries consistently without starting every reply from scratch. AI can draft responses for questions, objections, undecided customers, ready-to-buy customers and follow-ups when it has accurate business details. Human review protects accuracy and warmth, while conversation patterns can reveal useful content ideas and process improvements.', principles: [{ title: 'Give AI reliable information', body: 'Provide current offers, prices, policies, customer questions and examples of your brand voice.' }, { title: 'Prepare for real situations', body: 'Create drafts for common enquiries, objections, hesitation, purchase decisions and follow-ups.' }, { title: 'Learn from conversations', body: 'Review recurring questions to improve replies, content topics and the sales process.' }], businessExample: { title: 'A home cleaning service', scenario: 'The owner gathers approved prices, service areas and common questions. AI helps draft reply options, which the team checks before saving. Repeated questions later guide a clearer service FAQ.' }, takeaway: 'Build a reusable system from accurate information and improve it with human review.' }),
     ],
   },
   {
     id: 'module-04',
     number: '04',
-    title: 'AI Automation & Scaling',
-    summary: 'Automate the repetitive, systemise your content and build your 90-day plan to scale.',
+    title: 'AI Website Development',
+    summary: 'Plan, write, build, test, and publish a simple business website with AI assistance. AI can help you build faster, but strategy still comes first.',
     lessons: [
-      {
-        id: 'lesson-01',
-        number: '01',
-        title: 'AI Workflow Automation',
-        description: 'Connect your tools so repetitive tasks run themselves.',
-        videoUrl: '',
-        focus: 'ai',
-        material: {
-          intro:
-            'Automation tools connect your apps so a trigger in one creates an action in another. Add AI in the middle and workflows can summarise, write and route for you.',
-          principles: [
-            { title: 'Trigger \u2192 Action', body: 'Every automation is "when this happens, do that". Start with one.' },
-            { title: 'Automate the boring', body: 'Data entry, reminders and follow-ups are the best first candidates.' },
-            { title: 'Keep a human checkpoint', body: 'Anything customer-facing should be reviewed before it goes out.' },
-          ],
-          businessExample: {
-            title: 'A cleaning company',
-            scenario: 'New bookings automatically create a calendar event, send a confirmation and add the client to a review-request sequence.',
-          },
-          useCases: ['Booking confirmations', 'Lead routing', 'Invoice reminders', 'Review requests'],
-          takeaway: 'Automate the predictable so you can focus on the valuable.',
-        },
-        project: {
-          brief: 'Build your first automation.',
-          tasks: ['Choose one repetitive task from your Lesson 01 task map.', 'Map the trigger and actions.', 'Build and test it end-to-end in an automation tool.'],
-          expectedOutput: 'One live, tested automation.',
-        },
-      },
-      {
-        id: 'lesson-02',
-        number: '02',
-        title: 'Scaling Your Content Operation',
-        description: 'Turn content creation into a repeatable system that runs without burning you out.',
-        videoUrl: '',
-        focus: 'strategy',
-        material: {
-          intro:
-            'Scaling content is about systems, not hustle. One core idea can become a week of content when you have a repurposing workflow and AI support.',
-          principles: [
-            { title: 'Create once, publish many', body: 'Turn one long piece into reels, posts, emails and carousels.' },
-            { title: 'Document the process', body: 'Write down each step so it can be delegated or automated.' },
-            { title: 'Protect your voice', body: 'Keep a brand voice guide that every AI prompt and team member uses.' },
-          ],
-          businessExample: {
-            title: 'A podcast host',
-            scenario: 'Each episode becomes 5 clips, 3 posts and a newsletter — produced with AI in an afternoon.',
-          },
-          useCases: ['Repurposing workflows', 'Content SOPs', 'Batch production days', 'Delegation guides'],
-          takeaway: 'Systems scale. Willpower doesn\u2019t.',
-        },
-        project: {
-          brief: 'Design your repurposing system.',
-          tasks: ['Choose one core content format (video, podcast or blog).', 'Map how it becomes at least 5 smaller pieces.', 'Write a step-by-step SOP for the process.'],
-          expectedOutput: 'A documented content repurposing SOP.',
-        },
-      },
-      {
-        id: 'lesson-03',
-        number: '03',
-        title: 'AI for Business Operations',
-        description: 'Use AI behind the scenes — admin, finance, customer service and planning.',
-        videoUrl: '',
-        focus: 'human',
-        material: {
-          intro:
-            'Beyond marketing, AI can support operations: answering FAQs, summarising documents, analysing numbers and drafting policies — freeing your time for leadership.',
-          principles: [
-            { title: 'Start with knowledge', body: 'Give AI your FAQs, policies and processes so it answers accurately.' },
-            { title: 'Analyse, then decide', body: 'Let AI summarise data; you make the decisions.' },
-            { title: 'Protect sensitive data', body: 'Never paste confidential customer or financial data into tools you haven\u2019t vetted.' },
-          ],
-          businessExample: {
-            title: 'A dental practice',
-            scenario: 'An AI assistant trained on practice FAQs handles common patient questions, while staff focus on in-person care.',
-          },
-          useCases: ['Customer FAQ assistants', 'Document summaries', 'Sales and expense analysis', 'Policy drafting'],
-          takeaway: 'AI runs the background. You lead the business.',
-        },
-        project: {
-          brief: 'Create an operations assistant brief.',
-          tasks: ['Collect your top 15 customer questions and answers.', 'Load them into an AI assistant as reference.', 'Test it with 5 realistic customer questions.'],
-          expectedOutput: 'A tested FAQ assistant and notes on accuracy.',
-        },
-      },
-      {
-        id: 'lesson-04',
-        number: '04',
-        title: 'Your 90-Day AI Scaling Roadmap',
-        description: 'Bring everything together into a focused 90-day plan for your business.',
-        videoUrl: '',
-        focus: 'strategy',
-        material: {
-          intro:
-            'You now have the tools. This lesson turns them into a plan: three priorities, one per month, measured against clear business outcomes.',
-          principles: [
-            { title: 'Outcomes over activity', body: 'Pick measurable goals — leads, sales, hours saved.' },
-            { title: 'One priority per month', body: 'Focus beats volume. Sequence your AI projects.' },
-            { title: 'Review weekly', body: 'A 15-minute weekly review keeps the plan alive.' },
-          ],
-          businessExample: {
-            title: 'A wedding photographer',
-            scenario: 'Month 1: content system. Month 2: DM sales script. Month 3: booking automation. By day 90, enquiries and saved hours are both up.',
-          },
-          useCases: ['Quarterly planning', 'KPI tracking', 'Weekly reviews', 'Team alignment'],
-          takeaway: 'Strategy + Human Touch + AI — applied for 90 days — changes a business.',
-        },
-        project: {
-          brief: 'Build your 90-day AI roadmap.',
-          tasks: ['Set 3 measurable goals for the next 90 days.', 'Assign one AI project to each month.', 'Schedule a recurring weekly review in your calendar.'],
-          expectedOutput: 'A one-page 90-day roadmap with goals, projects and review dates.',
-        },
-      },
+      createLesson('web-design', '01', 'Understanding Web Design', 'Understand what makes a business website useful, including structure, user experience, navigation, and mobile responsiveness.', 'strategy', 'Learn what makes a business website useful, clear and easy to navigate. Explore website structure, user experience, essential sections, calls to action and responsive design so you can plan a website around your business goals and your customers\' needs.', 'Plan a useful website structure', ['Identify the primary audience and the action you want visitors to take.', 'Outline the pages or sections needed to explain your offer.', 'Check the navigation and layout for mobile use.'], 'A simple website structure and visitor journey.', ['Website structure', 'User experience and navigation', 'Mobile responsiveness'], { intro: 'A business website needs to do more than look attractive: it should help visitors understand the offer and decide what to do next. User experience, navigation, page structure and responsive design all affect how easily people find information. Plan around customer needs and the main business goal.', principles: [{ title: 'Plan around a visitor goal', body: 'Decide who the site serves and the main action visitors should be able to take.' }, { title: 'Give the page a clear structure', body: 'Use sections such as a hero, services, benefits, testimonials and calls to action.' }, { title: 'Design for different screens', body: 'Keep navigation, text and important actions easy to use on mobile and desktop.' }], businessExample: { title: 'A local repair business', scenario: 'A repair shop wants more service enquiries. Its homepage explains the services, coverage area and booking steps near the top, then uses customer testimonials to build confidence.' }, takeaway: 'A useful website makes the offer clear and the next step easy to find.' }),
+      createLesson('website-copy', '02', 'Copy for Websites', 'Create clear website copy that communicates an offer, explains benefits, and guides visitors towards action.', 'human', 'Learn how to write website copy that explains what your business offers, who it serves and why customers should care. Explore headlines, benefits, calls to action and customer-focused messaging that helps visitors understand your offer and take the next step.', 'Draft copy for a business landing page', ['Write a clear headline and short offer explanation.', 'Describe customer benefits using plain language.', 'Add a relevant call to action and check every claim.'], 'A first draft of clear, customer-focused website copy.', ['Offer clarity', 'Customer benefits', 'Calls to action'], { intro: 'Website copy helps visitors quickly understand what a business offers, whom it helps and why the offer matters. Clear headlines and customer-focused benefits reduce confusion, while useful answers build confidence. The copy should explain value before asking visitors to buy, book, enquire or take another action.', principles: [{ title: 'Lead with a clear headline', body: 'State what you offer and who it is for in plain, specific language.' }, { title: 'Translate features into benefits', body: 'Explain how the offer helps customers rather than relying on technical details.' }, { title: 'Answer before asking', body: 'Address key questions and use a call to action that fits visitor readiness.' }], businessExample: { title: 'A tutoring service homepage', scenario: 'Instead of saying only that lessons are online, the page explains that students can book flexible sessions and get help in specific subjects. A clear button lets parents check availability.' }, takeaway: 'Make the value easy to understand before asking visitors to act.' }),
+      createLesson('prompt-web-development', '03', 'How to Prompt for AI Web Development', 'Brief AI with the strategy, audience, content, structure, design direction, and functionality required to build a website.', 'strategy', 'Learn how to give AI clear instructions for creating a business website. Explore how to communicate your business goals, audience, page structure, content, design preferences and functionality, then refine the results through review and follow-up prompts.', 'Write an AI website development brief', ['Describe the business, audience, and primary website goal.', 'Provide approved copy, required sections, design direction, and functionality.', 'Ask AI for a first build, then review it against your brief.'], 'A structured AI web development brief and review checklist.', ['Business and audience context', 'Content and structure', 'Design direction and functionality'], { intro: 'AI can create a more useful website when the instructions include the business context and a clear direction. A strong prompt covers the audience, purpose, page structure, approved content, visual preferences and required functionality. Review the first draft and use follow-up prompts to refine it.', principles: [{ title: 'Set the business context', body: 'Explain the audience, offer, purpose and main action the website should support.' }, { title: 'Describe structure and design', body: 'List the required sections, content, visual direction and functionality.' }, { title: 'Review and refine', body: 'Compare the draft with the brief, identify gaps and give focused follow-up instructions.' }], businessExample: { title: 'A freelance event planner', scenario: 'She briefs AI with her services, client type, enquiry goal, page sections and preferred visual style. After reviewing the draft on a phone, she asks for clearer package details and a more visible enquiry button.' }, takeaway: 'You set the strategy and direction; AI helps turn that brief into a first build.' }),
+      createLesson('publishing-deploying', '04', 'Publishing & Deploying Your Website', 'Understand hosting, domain names, deployment, testing, and making a website available online.', 'ai', 'Understand how to take a completed website from development to a live online experience. Learn the basics of publishing, hosting, domains, testing and maintenance so you can check your website works properly before sharing it with customers.', 'Prepare a website launch checklist', ['Identify a domain and hosting approach for your project.', 'Test links, forms, readability, and mobile layout.', 'Follow the deployment steps and check the published website.'], 'A launch checklist for testing and publishing a simple website.', ['Hosting and domain names', 'Deployment and testing', 'Post-launch checks'], { intro: 'Publishing makes a website available online so customers can visit it. Hosting is the service that stores and serves the site, a domain is its web address, and deployment is the process of putting the finished version online. Check links, forms, content and mobile layouts before sharing it; keep it current afterward.', principles: [{ title: 'Know the basic pieces', body: 'A domain is the address, hosting serves the site, and deployment publishes its files.' }, { title: 'Check before launch', body: 'Test navigation, forms, contact details, readable content and mobile layouts.' }, { title: 'Keep maintaining it', body: 'After launch, review links and information and make improvements as the business changes.' }], businessExample: { title: 'A new catering website', scenario: 'Before sharing the domain, the owner checks the menu and contact details, submits the enquiry form, opens each link and reviews the site on a phone. She notes who will update prices and seasonal menus.' }, takeaway: 'Launch only after practical checks, then keep the site current.' }),
     ],
   },
 ]

@@ -15,9 +15,10 @@ export function FinalCta() {
         />
         <Reveal className="mx-auto max-w-3xl text-center">
           <p className="eyebrow text-electric">Business, powered by AI</p>
-          <h2 className="font-display mt-5 text-5xl leading-[0.9] font-black uppercase md:text-7xl text-balance">
-            Your business is about to get a lot smarter.
+          <h2 className="font-display mt-5 text-[clamp(2.5rem,6vw,4.5rem)] leading-tight font-black uppercase text-balance">
+            Stop Just Exploring AI. Start Putting It to Work.
           </h2>
+          <p className="mx-auto mt-6 max-w-xl leading-relaxed text-muted-foreground">Learn the principles, explore the tools, and build practical outputs you can use beyond the training.</p>
           <Link href="/access" className={cta({ size: 'lg', className: 'mt-10' })}>
             Start Learning
             <ArrowRight aria-hidden className={ctaArrow} />

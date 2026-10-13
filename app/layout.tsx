@@ -13,16 +13,16 @@ const archivo = Archivo({
 
 export const metadata: Metadata = {
   title: {
-    default: 'AI in Business (AIIB) — From Zero to 100 with AI',
+    default: 'AI in Business (AIIB) — Your Business, Powered by AI',
     template: '%s · AIIB',
   },
   description:
-    'A practical accelerator for business owners and entrepreneurs ready to create, automate and scale with AI. Strategy + Human Touch + AI.',
+    'Practical AI training for business owners and entrepreneurs. Learn to create content, improve marketing and sales, and build digital experiences with AI. Strategy + Human Touch + AI.',
   generator: 'v0.app',
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'dark',
+  colorScheme: 'light',
   themeColor: '#0b0c10',
 }
 

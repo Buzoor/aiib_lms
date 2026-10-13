@@ -6,9 +6,9 @@ import { curriculum, totalLessons } from '@/lib/content'
 
 export function Hero() {
   const stats = [
-    { value: String(curriculum.length).padStart(2, '0'), label: 'Modules' },
-    { value: String(totalLessons), label: 'Lessons' },
-    { value: String(totalLessons), label: 'Real projects' },
+    { value: String(curriculum.length).padStart(2, '0'), label: 'Practical modules' },
+    { value: String(totalLessons), label: 'Focused lessons' },
+    { value: '01', label: 'Strategy comes first' },
   ]
 
   return (
@@ -26,24 +26,24 @@ export function Hero() {
             AI in Business · Season 1
           </p>
           <h1 className="font-display mt-6 animate-rise text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.88] font-black uppercase [animation-delay:80ms]">
-            From zero
+            Your Business.
             <br />
-            to <span className="text-electric-gradient">100</span>
-            <br />
-            with AI.
+            Powered by <span className="text-electric-gradient">AI.</span>
           </h1>
           <p className="mt-7 max-w-lg animate-rise text-lg leading-relaxed text-muted-foreground text-pretty [animation-delay:160ms]">
-            A practical accelerator for business owners ready to create, automate and scale with AI.
+            Learn how to use AI to create better content, improve your marketing and sales, and build digital experiences that help your business grow.
           </p>
           <div className="mt-9 flex animate-rise flex-col gap-3 sm:flex-row [animation-delay:240ms]">
-            <Link href="/access" className={cta({ size: 'lg' })}>
-              Start Learning
+            <Link href="#about" className={cta({ size: 'lg' })}>
+              Explore the Programme
               <ArrowRight aria-hidden className={ctaArrow} />
             </Link>
-            <a href="#program" className={cta({ size: 'lg', variant: 'secondary' })}>
-              Explore the Program
+            <a href="#curriculum" className={cta({ size: 'lg', variant: 'secondary' })}>
+              View the Curriculum
             </a>
           </div>
+
+          <p className="mt-5 text-sm text-muted-foreground">Practical learning. Real business applications. No advanced AI experience required.</p>
 
           <dl className="mt-14 grid max-w-md animate-rise grid-cols-3 border-t border-white/10 pt-6 [animation-delay:320ms]">
             {stats.map((stat) => (

@@ -1,5 +1,5 @@
-import { ProgressOverview } from '@/components/lms/progress-overview'
+import { redirect } from 'next/navigation'
 
 export default function ProgressPage() {
-  return <ProgressOverview />
+  redirect('/learn/modules')
 }

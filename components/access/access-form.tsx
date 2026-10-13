@@ -59,7 +59,7 @@ export function AccessForm() {
             setCode(e.target.value.toUpperCase())
             if (error) setError(null)
           }}
-          placeholder="AIIB-C1-001"
+          placeholder="Enter your access code"
           autoComplete="one-time-code"
           autoCapitalize="characters"
           spellCheck={false}

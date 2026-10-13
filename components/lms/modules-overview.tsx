@@ -1,22 +1,22 @@
-'use client'
-
+import Link from 'next/link'
+import { ArrowRight } from 'lucide-react'
+import { cta, ctaArrow } from '@/components/brand/cta'
 import { curriculum } from '@/lib/content'
-import { LOCK_MODULES_IN_ORDER } from '@/lib/stores/progress'
 import { ModuleCard } from './module-card'
 import { PageHeader } from './page-header'
 
 export function ModulesOverview() {
   return (
     <div className="mx-auto max-w-6xl px-5 py-10 md:px-10 md:py-14">
-      <PageHeader eyebrow="Season 1 curriculum" title="All modules">
-        {LOCK_MODULES_IN_ORDER
-          ? 'Work through the modules in order. Each one unlocks when the previous module is complete.'
-          : 'Work through the modules at your own pace.'}
+      <PageHeader eyebrow="Course content" title="All modules">
+        Explore the lessons in any order. Open a lesson to watch its video, read a brief summary, and access its project link.
       </PageHeader>
-      <div className="mt-10 grid gap-5 md:grid-cols-2">
-        {curriculum.map((module, i) => (
-          <ModuleCard key={module.id} module={module} moduleIndex={i} expanded />
-        ))}
+      <Link href="/learn/introduction" className={cta({ className: 'mt-7' })}>
+        Return to Introduction
+        <ArrowRight aria-hidden className={ctaArrow} />
+      </Link>
+      <div className="mt-8 grid gap-5 md:grid-cols-2">
+        {curriculum.map((module) => <ModuleCard key={module.id} module={module} expanded />)}
       </div>
     </div>
   )

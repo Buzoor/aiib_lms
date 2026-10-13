@@ -26,6 +26,27 @@ export const allLessons: LessonRef[] = curriculum.flatMap((module, moduleIndex) 
 
 export const totalLessons = allLessons.length
 
+export const introductionHref = '/learn/introduction'
+export const conclusionHref = '/learn/conclusion'
+
+export type CourseItem =
+  | { type: 'introduction' | 'conclusion'; href: string; title: string }
+  | { type: 'lesson'; href: string; title: string; ref: LessonRef }
+
+export const courseSequence: CourseItem[] = [
+  { type: 'introduction', href: introductionHref, title: 'Introduction' },
+  ...allLessons.map((ref) => ({ type: 'lesson' as const, href: lessonHref(ref), title: ref.lesson.title, ref })),
+  { type: 'conclusion', href: conclusionHref, title: 'Conclusion' },
+]
+
+export function getAdjacentCourseItems(href: string) {
+  const index = courseSequence.findIndex((item) => item.href === href)
+  return {
+    previous: index > 0 ? courseSequence[index - 1] : undefined,
+    next: index >= 0 ? courseSequence[index + 1] : undefined,
+  }
+}
+
 export function getLessonRef(key: string | null | undefined) {
   return allLessons.find((ref) => ref.key === key)
 }

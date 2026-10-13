@@ -21,7 +21,7 @@ export default function AccessPage() {
           fill
           priority
           sizes="55vw"
-          className="object-cover object-[30%_center] opacity-80"
+          className="object-cover object-[30%_center] opacity-30"
         />
         <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-12">

@@ -188,6 +188,103 @@
 }
 
 @layer components {
+  .landing-light {
+    color-scheme: light;
+    --background: #eaf1f9;
+    --foreground: #111827;
+    --card: #f1f6fc;
+    --card-foreground: #111827;
+    --popover: #f1f6fc;
+    --popover-foreground: #111827;
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --secondary: #eef4fc;
+    --secondary-foreground: #111827;
+    --muted: #f1f5f9;
+    --muted-foreground: #475569;
+    --accent: #dbeafe;
+    --accent-foreground: #111827;
+    --border: #dbe3ef;
+    --input: #dbe3ef;
+    --ring: #2563eb;
+    --electric: #2563eb;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+  .landing-dark {
+    color-scheme: dark;
+    --background: #080b12;
+    --foreground: #f8fafc;
+    --card: #111b2b;
+    --card-foreground: #f8fafc;
+    --popover: #111b2b;
+    --popover-foreground: #f8fafc;
+    --primary: #3b82f6;
+    --primary-foreground: #ffffff;
+    --secondary: #172554;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #cbd5e1;
+    --accent: #1e3a8a;
+    --accent-foreground: #f8fafc;
+    --border: #334155;
+    --input: #475569;
+    --ring: #60a5fa;
+    --electric: #60a5fa;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+  .lms-theme {
+    color-scheme: dark;
+    --background: #080b12;
+    --foreground: #f8fafc;
+    --card: #111827;
+    --card-foreground: #f8fafc;
+    --popover: #111827;
+    --popover-foreground: #f8fafc;
+    --primary: #2563eb;
+    --primary-foreground: #ffffff;
+    --secondary: #172554;
+    --secondary-foreground: #f8fafc;
+    --muted: #1e293b;
+    --muted-foreground: #cbd5e1;
+    --accent: #1e3a8a;
+    --accent-foreground: #f8fafc;
+    --border: #334155;
+    --input: #475569;
+    --ring: #60a5fa;
+    --electric: #60a5fa;
+    --sidebar: #0f172a;
+    --sidebar-foreground: #f8fafc;
+    --sidebar-primary: #3b82f6;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #1e293b;
+    --sidebar-accent-foreground: #f8fafc;
+    --sidebar-border: #334155;
+    --sidebar-ring: #60a5fa;
+    color: var(--foreground);
+    background-color: var(--background);
+  }
+  .landing-card {
+    background: #f1f6fc;
+    border-color: #cbd5e1;
+    box-shadow: 0 8px 28px -22px rgba(15, 23, 42, 0.4);
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+  .landing-dark .landing-card {
+    background: #111b2b;
+    border-color: #334155;
+    box-shadow: 0 10px 30px -24px rgba(0, 0, 0, 0.75);
+  }
+  .landing-dark .landing-card:hover {
+    border-color: #60a5fa;
+    box-shadow: 0 18px 36px -24px rgba(37, 99, 235, 0.4);
+  }
+  .landing-card:hover {
+    transform: translateY(-3px);
+    border-color: #93c5fd;
+    box-shadow: 0 18px 36px -26px rgba(37, 99, 235, 0.35);
+  }
   .reveal {
     opacity: 0;
     transform: translateY(18px);
@@ -199,6 +296,33 @@
     opacity: 1;
     transform: none;
   }
+}
+
+@keyframes lesson-material-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.lesson-material-section {
+  animation: lesson-material-enter 420ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.lesson-material-section:nth-child(2) {
+  animation-delay: 60ms;
+}
+
+.lesson-material-section:nth-child(3) {
+  animation-delay: 120ms;
+}
+
+.lesson-material-section:nth-child(4) {
+  animation-delay: 180ms;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -215,5 +339,8 @@
   .reveal {
     opacity: 1;
     transform: none;
+  }
+  .lesson-material-section {
+    animation: none;
   }
 }
