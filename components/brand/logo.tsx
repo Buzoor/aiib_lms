@@ -2,7 +2,12 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
-export function Logo({ href = '/', className, priority }: { href?: string; className?: string; priority?: boolean }) {
+export function Logo({
+  href = '/',
+  className,
+  imageClassName,
+  priority,
+}: { href?: string; className?: string; imageClassName?: string; priority?: boolean }) {
   return (
     <Link href={href} className={cn('inline-flex shrink-0 items-center rounded-sm', className)} aria-label="AI in Business — home">
       <Image
@@ -11,7 +16,7 @@ export function Logo({ href = '/', className, priority }: { href?: string; class
         width={1340}
         height={530}
         priority={priority}
-        className="h-9 w-auto"
+        className={cn('h-9 w-auto', imageClassName)}
       />
     </Link>
   )
