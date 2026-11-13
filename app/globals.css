@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+:root {
+  --font-inter: Arial, Helvetica, sans-serif;
+  --font-archivo: Arial, Helvetica, sans-serif;
+}
+
 @theme inline {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-archivo), var(--font-inter), ui-sans-serif, sans-serif;

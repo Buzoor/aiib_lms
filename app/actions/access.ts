@@ -60,15 +60,20 @@ function stringField(records: JsonRecord[], keys: string[]): string | undefined 
   return undefined
 }
 
-export async function verifyAccessCode(rawCode: string): Promise<AccessResult> {
+export async function verifyAccessCode(rawCode: string, rawEmail: string): Promise<AccessResult> {
   if (typeof rawCode !== 'string' || rawCode.trim().length === 0 || rawCode.length > 40) {
+    return { ok: false, error: invalidCodeMessage }
+  }
+  if (typeof rawEmail !== 'string' || rawEmail.trim().length === 0 || rawEmail.length > 254) {
     return { ok: false, error: invalidCodeMessage }
   }
 
   const code = rawCode.trim().toUpperCase().replace(/\s+/g, '')
+  const email = rawEmail.trim().toLowerCase()
   const url = new URL(ACCESS_LOOKUP_URL)
   url.searchParams.set('action', 'lookup')
   url.searchParams.set('code', code)
+  url.searchParams.set('email', email)
 
   try {
     const response = await fetch(url, {

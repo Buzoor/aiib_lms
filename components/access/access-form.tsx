@@ -12,6 +12,7 @@ export function AccessForm() {
   const router = useRouter()
   const trainee = useTrainee()
   const [code, setCode] = useState('')
+  const [email, setEmail] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [pending, startTransition] = useTransition()
   const inputId = useId()
@@ -27,9 +28,13 @@ export function AccessForm() {
       setError('Enter the access code you received from AIIB.')
       return
     }
+    if (!email.trim()) {
+      setError('Enter the email address associated with your access code.')
+      return
+    }
     setError(null)
     startTransition(async () => {
-      const result = await verifyAccessCode(code)
+      const result = await verifyAccessCode(code, email)
       if (!result.ok) {
         setError(result.error)
         return
@@ -41,7 +46,34 @@ export function AccessForm() {
 
   return (
     <form onSubmit={handleSubmit} noValidate className="w-full">
-      <label htmlFor={inputId} className="eyebrow text-muted-foreground">
+      <label htmlFor={`${inputId}-email`} className="eyebrow text-muted-foreground">
+        Email address
+      </label>
+      <div
+        className={cn(
+          'mt-3 flex h-14 items-center gap-3 rounded-md border bg-white/[0.03] px-4 transition-colors focus-within:border-electric focus-within:bg-white/[0.05]',
+          error ? 'border-destructive/70' : 'border-white/15',
+        )}
+      >
+        <input
+          id={`${inputId}-email`}
+          name="email"
+          type="email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            if (error) setError(null)
+          }}
+          placeholder="Enter your email address"
+          autoComplete="email"
+          maxLength={254}
+          aria-invalid={Boolean(error)}
+          aria-describedby={error ? errorId : undefined}
+          className="h-full w-full bg-transparent text-base text-foreground outline-none placeholder:text-white/25"
+        />
+      </div>
+
+      <label htmlFor={inputId} className="eyebrow mt-6 block text-muted-foreground">
         Access code
       </label>
       <div
